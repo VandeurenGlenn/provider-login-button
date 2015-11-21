@@ -24,18 +24,25 @@ Example:
       :host {
         display: inline-block;
         color: white;
-        width: 190px;
-        border-radius: 5px;
+        width: 192px;
+        height: 48px;
+        margin: 8px;
+        padding: 8px;
         white-space: nowrap;
-      }
-      :host([theme="light"]) {
-        background: #FFF;
-      }
-      :host([theme="dark"]) {
-        background: #EEE;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                    0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                    0 3px 1px -2px rgba(0, 0, 0, 0.2);
       }
       :host:hover {
         cursor: pointer;
+      }
+      :host([theme="light"]) {
+        background: #FFF;
+        color: rgba(0, 0, 0, 0.87);
+      }
+      :host([theme="dark"]) {
+        background: #EEE;
+        color: #FFF;
       }
       :host([provider="facebook"]) iron-icon {
         border-right: 1px solid #0D47A1;
@@ -50,8 +57,12 @@ Example:
         font-family: 'Roboto', sans-serif;
         text-transform: capitalize;
       }
+      iron-icon {
+        width: 48px;
+        height: 48px;
+      }
     </style>
-      <iron-icon icon="[[_computeIcon(iconLocation, provider, theme, iconType)]]"></iron-icon>
+      <iron-icon></iron-icon>
       <span class="provider">[[provider]]</span>
   </template>
 
@@ -68,25 +79,44 @@ Example:
        *  Set to google, twitter, facebook or you're own custom provider...
        */
       provider: String,
+
+      /** Used for styling, default themes are light and dark */
       theme: {
         type: String,
-        value: 'light'
+        value: 'light',
+        reflectToAttribute: true
       },
 
+      /** The location your logos are stored. */
       iconLocation: {
         type: String,
-        value: 'icons/'
+        value: 'bower_components/provider-login-button/icons/'
       },
 
+      /** Set to svg, png, etc... */
       iconType: {
         type: String,
         value: 'svg'
+      },
+
+      /** Set to true for using with iron-iconset */
+      iconSet: {
+        type: Boolean,
+        value: false
       }
     },
 
-    _computeIcon: function(iconLocation, provider, theme, iconType) {
-      var icon = iconLocation + provider + '-' + theme + '.' + iconType;
-      return icon;
+    observers: [
+      '_setIcon(iconLocation, provider, theme, iconType, iconSet)'
+    ],
+
+    _setIcon: function(iconLocation, provider, theme, iconType, iconSet) {
+      if (iconSet) {
+        ironIcon.icon = provider + '-' + theme;
+      } else {
+        var ironIcon = Polymer.dom(this.root).querySelector('iron-icon');
+        ironIcon.src = iconLocation + provider + '-' + theme + '.' + iconType;
+      }
     }
   });
 
