@@ -1,0 +1,93 @@
+<!--
+@license
+Copyright (c) 2015 Glenn Vandeuren. All rights reserved.
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+
+<!--
+An element providing a solution to a provider login button.
+
+Example:
+
+    <provider-login-button></provider-login-button>
+
+@group Seed Elements
+@element provider-login-button
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="provider-login-button">
+
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        color: white;
+        width: 190px;
+        border-radius: 5px;
+        white-space: nowrap;
+      }
+      :host([theme="light"]) {
+        background: #FFF;
+      }
+      :host([theme="dark"]) {
+        background: #EEE;
+      }
+      :host:hover {
+        cursor: pointer;
+      }
+      :host([provider="facebook"]) iron-icon {
+        border-right: 1px solid #0D47A1;
+      }
+      span.provider {
+        display: inline-block;
+        vertical-align: middle;
+        padding-left: 42px;
+        padding-right: 42px;
+        font-size: 14px;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+        text-transform: capitalize;
+      }
+    </style>
+      <iron-icon icon="[[_computeIcon(iconLocation, provider, theme, iconType)]]"></iron-icon>
+      <span class="provider">[[provider]]</span>
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'provider-login-button',
+
+    properties: {
+      /**
+       *  Set to google, twitter, facebook or you're own custom provider...
+       */
+      provider: String,
+      theme: {
+        type: String,
+        value: 'light'
+      },
+
+      iconLocation: {
+        type: String,
+        value: 'icons/'
+      },
+
+      iconType: {
+        type: String,
+        value: 'svg'
+      }
+    },
+
+    _computeIcon: function(iconLocation, provider, theme, iconType) {
+      var icon = iconLocation + provider + '-' + theme + '.' + iconType;
+      return icon;
+    }
+  });
+
+</script>
