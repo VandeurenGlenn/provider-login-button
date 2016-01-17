@@ -12,21 +12,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>provider-login-button Demo</title>
+
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../provider-login-button.html">
+    <script src="../../web-component-tester/browser.js"></script>
   </head>
-  <body unresolved>
-
-    <p>An example of <code>&lt;provider-login-button&gt;</code>:</p>
-
-    <provider-login-button provider="google" icon-location="../icons/" theme="light"></provider-login-button>
-
-    <provider-login-button provider="twitter" icon-location="../icons/"></provider-login-button>
-
-    <provider-login-button provider="facebook" icon-location="../icons/"></provider-login-button>
-
-    <provider-login-button provider="password" icon-location="../icons/"></provider-login-button>
-
+  <body>
+    <script>
+      // Load and run all tests (.html, .js):
+      WCT.loadSuites([
+        'basic-test.html'
+      ]);
+    </script>
   </body>
 </html>

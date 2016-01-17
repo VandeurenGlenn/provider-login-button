@@ -25,10 +25,9 @@ Example:
         display: inline-block;
         color: white;
         width: 192px;
-        height: 48px;
         margin: 8px;
-        padding: 8px;
         white-space: nowrap;
+        box-sizing: border-box;
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
                     0 1px 5px 0 rgba(0, 0, 0, 0.12),
                     0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -44,26 +43,46 @@ Example:
         background: #EEE;
         color: #FFF;
       }
-      :host([provider="facebook"]) iron-icon {
-        border-right: 1px solid #0D47A1;
+      :host:not([no-border]) iron-icon {
+        border-right: 1px solid rgba(0, 0, 0, 0.22);
+      }
+      .button-wrapper, .wrapper {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      .provider-wrapper {
+        padding: 9px 0;
       }
       span.provider {
         display: inline-block;
         vertical-align: middle;
-        padding-left: 42px;
-        padding-right: 42px;
+        padding-right: 8px;
         font-size: 14px;
         font-weight: bold;
         font-family: 'Roboto', sans-serif;
         text-transform: capitalize;
       }
+      .flex {
+        @apply(--layout-flex);
+      }
       iron-icon {
-        width: 48px;
-        height: 48px;
+        width: 42px;
+        height: 42px;
       }
     </style>
+    <div class="wrapper">
+      <template is="dom-if" if="[[noBorder]]">
+        <span class="flex"></span>
+      </template>
       <iron-icon></iron-icon>
-      <span class="provider">[[provider]]</span>
+      <div class="button-wrapper flex">
+        <template is="dom-if" if="[[!noBorder]]">
+          <span class="flex"></span>
+        </template>
+        <span class="provider">[[provider]]</span>
+        <span class="flex"></span>
+      </div>
+    </div>
   </template>
 
 </dom-module>
@@ -102,6 +121,12 @@ Example:
       /** Set to true for using with iron-iconset */
       iconSet: {
         type: Boolean,
+        value: false
+      },
+
+      noBorder: {
+        type: Boolean,
+        reflectToAttribute: true,
         value: false
       }
     },
